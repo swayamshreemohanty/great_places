@@ -5,9 +5,13 @@
                <action android:name="android.media.action.IMAGE_CAPTURE" />
           </intent>
     </queries>
+   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+   <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
    <application
         android:label="Camera Map"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyDf0te3EO2rXyXhL-51rqXAT4ARn4O--lY"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
