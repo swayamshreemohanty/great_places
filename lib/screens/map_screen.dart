@@ -6,13 +6,10 @@ import '../models/place.dart';
 class MapScreen extends StatefulWidget {
   final PlaceLocation initialLocation;
   final bool isSelecting;
-  MapScreen({
-    this.initialLocation = const PlaceLocation(
-      latitude: 20.2961,
-      longitude: 85.8245,
-    ),
-    this.isSelecting = false,
-  });
+  MapScreen(
+      {this.initialLocation =
+          const PlaceLocation(latitude: 20.2961, longitude: 85.8245),
+      this.isSelecting = false});
   @override
   _MapScreenState createState() => _MapScreenState();
 }
@@ -30,6 +27,17 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Your Map'),
+        actions: [
+          if (widget.isSelecting)
+            IconButton(
+              onPressed: _pickedLocation == null
+                  ? null
+                  : () {
+                      Navigator.of(context).pop(_pickedLocation);
+                    },
+              icon: Icon(Icons.check),
+            ),
+        ],
         brightness: Brightness.dark,
       ),
       body: GoogleMap(
@@ -41,12 +49,16 @@ class _MapScreenState extends State<MapScreen> {
           zoom: 5,
         ),
         onTap: widget.isSelecting ? _selectLocation : null,
-        markers: _pickedLocation == null
+        markers: (_pickedLocation == null && widget.isSelecting)
             ? {}
             : {
                 Marker(
                   markerId: MarkerId('m1'),
-                  position: _pickedLocation,
+                  position: _pickedLocation ??
+                      LatLng(
+                        widget.initialLocation.latitude,
+                        widget.initialLocation.longitude,
+                      ),
                 ),
               },
       ),

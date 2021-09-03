@@ -4,6 +4,7 @@ import 'package:native_device/screens/add_place_screen.dart';
 import '../screens/add_place_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/great_places.dart';
+import '../screens/place_details_screen.dart';
 
 class PlacesList extends StatelessWidget {
   @override
@@ -49,8 +50,14 @@ class PlacesList extends StatelessWidget {
                                   ),
                                 ),
                                 title: Text(greatPlaces.items[i].title),
+                                subtitle:
+                                    Text(greatPlaces.items[i].location.address),
                                 onTap: () {
-                                  //go to detail page
+                                  //go to place detail page
+                                  Navigator.of(context).pushNamed(
+                                    PlaceDetailScreen.routeName,
+                                    arguments: greatPlaces.items[i].id,
+                                  );
                                 },
                               ),
                             ),
