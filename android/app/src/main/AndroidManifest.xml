@@ -1,7 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.native_device">
+    <queries>
+          <intent>
+               <action android:name="android.media.action.IMAGE_CAPTURE" />
+          </intent>
+    </queries>
    <application
-        android:label="native_device"
+        android:label="Camera Map"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
