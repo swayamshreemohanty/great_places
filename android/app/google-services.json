@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "331343830014",
+    "project_id": "greatplaces-52b7e",
+    "storage_bucket": "greatplaces-52b7e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:331343830014:android:d16b6a2d68cc560f397eaf",
+        "android_client_info": {
+          "package_name": "com.greatplaces"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "331343830014-ck52ms4a91t59gc7e54hv0i8opremo55.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.greatplaces",
+            "certificate_hash": "ecfe9dc0941afc497b9189dfa1dd30fa7658b7e7"
+          }
+        },
+        {
+          "client_id": "331343830014-mh6s8hmkteqonalsmca26jldat1djdbu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoaB9hhR4wvc5_WaUtP-CQErSr_XUObYg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "331343830014-mh6s8hmkteqonalsmca26jldat1djdbu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -66,7 +66,20 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                   //and keep the AddPlace button at the buttom of the screen.
                   children: [
                     TextField(
-                      decoration: InputDecoration(labelText: 'Title'),
+                      decoration: InputDecoration(
+                        labelText: 'Title',
+                        labelStyle: TextStyle(color: Colors.black),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
+                      ),
+                      cursorColor: Colors.black,
                       controller: _titleController,
                     ),
                     SizedBox(height: 20),
@@ -83,8 +96,15 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
           RaisedButton.icon(
             onPressed:
                 _savePlace, //Here, the function without (), is used to run that function when the button is pressed, not all the time during the program excecuting.
-            icon: Icon(Icons.add),
-            label: Text('Add Place'),
+            icon: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            label: Text(
+              'Add Place',
+              style: TextStyle(color: Colors.white),
+            ),
+
             color: Theme.of(context).accentColor,
             elevation: 0,
             materialTapTargetSize: MaterialTapTargetSize

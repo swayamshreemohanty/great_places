@@ -1,6 +1,8 @@
 //@dart=2.9
+
 import 'package:flutter/material.dart';
 import 'package:native_device/screens/add_place_screen.dart';
+import 'package:native_device/widget/app_drawer.dart';
 import '../screens/add_place_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/great_places.dart';
@@ -22,6 +24,7 @@ class PlacesList extends StatelessWidget {
           ),
         ],
       ),
+      drawer: AppDrawer(),
       body: FutureBuilder(
         future: Provider.of<GreatPlaces>(context, listen: false)
             .fetchAndSetPlaces(),
@@ -44,9 +47,12 @@ class PlacesList extends StatelessWidget {
                           : ListView.builder(
                               itemCount: greatPlaces.items.length,
                               itemBuilder: (ctx, i) => ListTile(
-                                leading: CircleAvatar(
-                                  backgroundImage: FileImage(
-                                    greatPlaces.items[i].image,
+                                leading: Hero(
+                                  tag: greatPlaces.items[i].image,
+                                  child: CircleAvatar(
+                                    backgroundImage: FileImage(
+                                      greatPlaces.items[i].image,
+                                    ),
                                   ),
                                 ),
                                 title: Text(greatPlaces.items[i].title),
