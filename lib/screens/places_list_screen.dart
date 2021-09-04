@@ -36,6 +36,7 @@ class PlacesList extends StatelessWidget {
                 child: CircularProgressIndicator(),
               )
             : RefreshIndicator(
+                color: Colors.indigo,
                 onRefresh: () =>
                     Provider.of<GreatPlaces>(context, listen: false)
                         .fetchAndSetPlaces(),
@@ -43,32 +44,35 @@ class PlacesList extends StatelessWidget {
                   child: Center(
                     child: const Text('Got no places yet,start adding some'),
                   ),
-                  builder: (ctx, greatPlaces, ch) =>
-                      greatPlaces.items.length <= 0
-                          ? ch
-                          : ListView.builder(
-                              itemCount: greatPlaces.items.length,
-                              itemBuilder: (ctx, i) => ListTile(
-                                leading: Hero(
-                                  tag: greatPlaces.items[i].image,
-                                  child: CircleAvatar(
-                                    backgroundImage: FileImage(
-                                      greatPlaces.items[i].image,
-                                    ),
+                  builder: (ctx, greatPlaces, ch) => greatPlaces.items.length <=
+                          0
+                      ? ch
+                      : ListView.builder(
+                          itemCount: greatPlaces.items.length,
+                          itemBuilder: (ctx, i) => Card(
+                            elevation: 4,
+                            child: ListTile(
+                              leading: Hero(
+                                tag: greatPlaces.items[i].image,
+                                child: CircleAvatar(
+                                  backgroundImage: FileImage(
+                                    greatPlaces.items[i].image,
                                   ),
                                 ),
-                                title: Text(greatPlaces.items[i].title),
-                                subtitle:
-                                    Text(greatPlaces.items[i].location.address),
-                                onTap: () {
-                                  //go to place detail page
-                                  Navigator.of(context).pushNamed(
-                                    PlaceDetailScreen.routeName,
-                                    arguments: greatPlaces.items[i].id,
-                                  );
-                                },
                               ),
+                              title: Text(greatPlaces.items[i].title),
+                              subtitle:
+                                  Text(greatPlaces.items[i].location.address),
+                              onTap: () {
+                                //go to place detail page
+                                Navigator.of(context).pushNamed(
+                                  PlaceDetailScreen.routeName,
+                                  arguments: greatPlaces.items[i].id,
+                                );
+                              },
                             ),
+                          ),
+                        ),
                 ),
               ),
       ),

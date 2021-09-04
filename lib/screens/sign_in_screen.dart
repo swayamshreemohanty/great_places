@@ -115,10 +115,10 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 setState(() {
                   _isSigningIn = true;
                 });
-
                 await Provider.of<Authentication>(context, listen: false)
                     .signInWithGoogle(context: context);
-
+                Navigator.of(context)
+                    .pushReplacementNamed(PlacesList.routeName);
                 setState(() {
                   _isSigningIn = false;
                 });

@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
                           : SignInScreen(),
                 ),
           routes: {
-            // PlacesList.routeName: (ctx) => PlacesList(),
+            PlacesList.routeName: (ctx) => PlacesList(),
             SignInScreen.routeName: (ctx) => SignInScreen(),
             AddPlaceScreen.routeName: (ctx) => AddPlaceScreen(),
             PlaceDetailScreen.routeName: (ctx) => PlaceDetailScreen(),

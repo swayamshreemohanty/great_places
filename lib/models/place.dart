@@ -27,3 +27,16 @@ class PlaceLocation {
     this.address,
   });
 }
+
+class UserData {
+  // final double id;
+  final String displayName;
+  final String email;
+  final String photoUrl;
+  
+  const UserData({
+    @required this.displayName,
+    @required this.email,
+    @required this.photoUrl,
+  });
+}

@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:native_device/models/place.dart';
 
 final GoogleSignIn googleSignIn = GoogleSignIn();
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
 class Authentication with ChangeNotifier {
   String _userName;
+  UserData _userData;
 
   bool get isAuth {
     return _userName != null;
@@ -21,6 +23,10 @@ class Authentication with ChangeNotifier {
     } else {
       return _userName;
     }
+  }
+
+  UserData get userData {
+    return _userData;
   }
 
   static Future<FirebaseApp> initializeFirebase({BuildContext context}) async {
@@ -60,11 +66,15 @@ class Authentication with ChangeNotifier {
             await auth.signInWithCredential(credential);
 
         user = userCredential.user;
-        print("**User**");
         _userName = user.displayName.toString();
-        // _user = user;
+        print("User Signin Data");
+        print(user);
 
-        print(_userName);
+        _userData = UserData(
+          displayName: user.displayName.toString(),
+          email: user.email.toString(),
+          photoUrl: user.photoURL.toString(),
+        );
         notifyListeners();
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
@@ -96,6 +106,8 @@ class Authentication with ChangeNotifier {
 
     try {
       await googleSignIn.signOut();
+      _userName = null;
+      notifyListeners();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         Authentication.customSnackBar(
@@ -110,9 +122,14 @@ class Authentication with ChangeNotifier {
       (account) {
         print("Account Details");
         // print(account);
-        print(_userName);
+        print(account);
 
         _userName = account.displayName.toString();
+        _userData = UserData(
+          displayName: account.displayName.toString(),
+          email: account.email.toString(),
+          photoUrl: account.photoUrl.toString(),
+        );
       },
       onError: (error) {
         print('Sign In $error');
@@ -122,7 +139,12 @@ class Authentication with ChangeNotifier {
       (account) {
         print("User Name");
         _userName = account.displayName.toString();
-        print(_userName);
+        UserData(
+          displayName: account.displayName.toString(),
+          email: account.email.toString(),
+          photoUrl: account.photoUrl.toString(),
+        );
+
         notifyListeners();
       },
     ).catchError(
