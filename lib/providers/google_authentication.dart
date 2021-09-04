@@ -1,21 +1,34 @@
+//@dart=2.9
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import '../screens/sign_in_screen.dart';
 
 final GoogleSignIn googleSignIn = GoogleSignIn();
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
 class Authentication with ChangeNotifier {
-  static Future<FirebaseApp> initializeFirebase(
-      {required BuildContext context}) async {
+  String _userName;
+
+  bool get isAuth {
+    return _userName != null;
+  }
+
+  String get user {
+    if (_userName == null) {
+      return null;
+    } else {
+      return _userName;
+    }
+  }
+
+  static Future<FirebaseApp> initializeFirebase({BuildContext context}) async {
     FirebaseApp firebaseApp = await Firebase.initializeApp();
     return firebaseApp;
   }
 
-  static SnackBar customSnackBar({required String content}) {
+  static SnackBar customSnackBar({String content}) {
     return SnackBar(
       backgroundColor: Colors.black,
       content: Text(
@@ -25,14 +38,13 @@ class Authentication with ChangeNotifier {
     );
   }
 
-  static Future<User?> signInWithGoogle({required BuildContext context}) async {
+  Future<void> signInWithGoogle({BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
 
-    User? user;
+    User user;
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
-    final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn();
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
 
     if (googleSignInAccount != null) {
       final GoogleSignInAuthentication googleSignInAuthentication =
@@ -49,7 +61,11 @@ class Authentication with ChangeNotifier {
 
         user = userCredential.user;
         print("**User**");
-        print(user);
+        _userName = user.displayName.toString();
+        // _user = user;
+
+        print(_userName);
+        notifyListeners();
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -72,11 +88,10 @@ class Authentication with ChangeNotifier {
           ),
         );
       }
-      return user;
     }
   }
 
-  Future<void> signOut({required BuildContext context}) async {
+  Future<void> signOut({BuildContext context}) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
     try {
@@ -88,5 +103,34 @@ class Authentication with ChangeNotifier {
         ),
       );
     }
+  }
+
+  Future<bool> tryAutoLogin() async {
+    googleSignIn.onCurrentUserChanged.listen(
+      (account) {
+        print("Account Details");
+        // print(account);
+        print(_userName);
+
+        _userName = account.displayName.toString();
+      },
+      onError: (error) {
+        print('Sign In $error');
+      },
+    );
+    googleSignIn.signInSilently(suppressErrors: false).then(
+      (account) {
+        print("User Name");
+        _userName = account.displayName.toString();
+        print(_userName);
+        notifyListeners();
+      },
+    ).catchError(
+      (error) {
+        print('Error signIn $error');
+      },
+    );
+
+    return true;
   }
 }

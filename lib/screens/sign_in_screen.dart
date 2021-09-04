@@ -1,6 +1,7 @@
 //@dart=2.9
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../providers/google_authentication.dart';
 import '../screens/places_list_screen.dart';
@@ -114,19 +115,13 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 setState(() {
                   _isSigningIn = true;
                 });
-                User user =
-                    await Authentication.signInWithGoogle(context: context);
+
+                await Provider.of<Authentication>(context, listen: false)
+                    .signInWithGoogle(context: context);
 
                 setState(() {
                   _isSigningIn = false;
                 });
-                if (user != null) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => PlacesList(),
-                    ),
-                  );
-                }
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),

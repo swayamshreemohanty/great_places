@@ -9,6 +9,8 @@ import '../providers/great_places.dart';
 import '../screens/place_details_screen.dart';
 
 class PlacesList extends StatelessWidget {
+  static const routeName = '/places_list';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

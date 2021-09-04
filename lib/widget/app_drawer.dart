@@ -6,15 +6,19 @@ import 'package:native_device/screens/sign_in_screen.dart';
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
-  // final User user;
-  // AppDrawer({this.user});
+  final String user;
+  AppDrawer({this.user});
   @override
   Widget build(BuildContext context) {
+    // final User user = Provider.of<Authentication>(context).user;
+    final String user =
+        Provider.of<Authentication>(context, listen: false).user;
+    print(user);
     return Drawer(
       child: Column(
         children: [
           AppBar(
-            title: Text("Welcome"),
+            title: Text("Welcome $user"),
             automaticallyImplyLeading: false,
             brightness: Brightness.dark,
           ),
