@@ -44,7 +44,7 @@ class Authentication with ChangeNotifier {
     );
   }
 
-  Future<void> signInWithGoogle({BuildContext context}) async {
+  Future<User> signInWithGoogle({BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
 
     User user;
@@ -99,6 +99,7 @@ class Authentication with ChangeNotifier {
         );
       }
     }
+    return user;
   }
 
   Future<void> signOut({BuildContext context}) async {
@@ -135,9 +136,10 @@ class Authentication with ChangeNotifier {
         print('Sign In $error');
       },
     );
-    googleSignIn.signInSilently(suppressErrors: false).then(
+    googleSignIn.signInSilently(suppressErrors: true).then(
       (account) {
         print("User Name");
+        print(account);
         _userName = account.displayName.toString();
         UserData(
           displayName: account.displayName.toString(),

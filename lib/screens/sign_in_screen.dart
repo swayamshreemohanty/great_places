@@ -115,13 +115,18 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 setState(() {
                   _isSigningIn = true;
                 });
-                await Provider.of<Authentication>(context, listen: false)
-                    .signInWithGoogle(context: context);
-                Navigator.of(context)
-                    .pushReplacementNamed(PlacesList.routeName);
-                setState(() {
-                  _isSigningIn = false;
-                });
+                User user =
+                    await Provider.of<Authentication>(context, listen: false)
+                        .signInWithGoogle(context: context);
+                print("Return User Data");
+                print(user);
+                if (user != null) {
+                  Navigator.of(context)
+                      .pushReplacementNamed(PlacesList.routeName);
+                  setState(() {
+                    _isSigningIn = false;
+                  });
+                }
               },
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
