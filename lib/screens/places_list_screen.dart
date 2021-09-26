@@ -1,6 +1,8 @@
 //@dart=2.9
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:native_device/models/place.dart';
 import 'package:native_device/screens/add_place_screen.dart';
 import 'package:native_device/widget/app_drawer.dart';
 import '../screens/add_place_screen.dart';
@@ -8,8 +10,34 @@ import 'package:provider/provider.dart';
 import '../providers/great_places.dart';
 import '../screens/place_details_screen.dart';
 
-class PlacesList extends StatelessWidget {
+class PlacesList extends StatefulWidget {
   static const routeName = '/places_list';
+
+  @override
+  State<PlacesList> createState() => _PlacesListState();
+}
+
+class _PlacesListState extends State<PlacesList> {
+  FirebaseAuth _auth;
+  UserData _userData;
+  User _user;
+
+//This is used to fetch the Current user data for the App Drawer
+  @override
+  void initState() {
+    super.initState();
+    _auth = FirebaseAuth.instance;
+    _getCurrentUser();
+  }
+
+  _getCurrentUser() {
+    _user = _auth.currentUser;
+    _userData = UserData(
+      displayName: _user.displayName.toString(),
+      email: _user.email.toString(),
+      photoUrl: _user.photoURL.toString(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +54,11 @@ class PlacesList extends StatelessWidget {
           ),
         ],
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(
+        _userData.displayName,
+        _userData.email,
+        _userData.photoUrl,
+      ),
       body: FutureBuilder(
         future: Provider.of<GreatPlaces>(context, listen: false)
             .fetchAndSetPlaces(),

@@ -2,42 +2,38 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:native_device/models/place.dart';
 import 'package:native_device/providers/google_authentication.dart';
-
 import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
-  final String user;
-  AppDrawer({this.user});
+  AppDrawer(this.displayName, this.email, this.photoUrl);
+  final String displayName;
+  final String email;
+  final String photoUrl;
+
   @override
   Widget build(BuildContext context) {
-    // final User user = Provider.of<Authentication>(context).user;
-    final UserData user =
-        Provider.of<Authentication>(context, listen: false).userData;
-
     return Drawer(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           UserAccountsDrawerHeader(
             accountName: Text(
-              '${user.displayName}',
+              '$displayName',
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
               ),
             ),
             accountEmail: Text(
-              //
-              '${user.email}',
+              '$email',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
               ),
             ),
             currentAccountPicture:
-                CircleAvatar(child: Image.network('${user.photoUrl}')),
+                CircleAvatar(child: Image.network('$photoUrl')),
             currentAccountPictureSize: Size(80, 80),
           ),
           Card(
@@ -65,8 +61,6 @@ class AppDrawer extends StatelessWidget {
                         color: Colors.white,
                         onPressed: () {
                           Navigator.of(context).pop();
-                          // Navigator.of(context)
-                          //     .pushReplacementNamed(SignInScreen.routeName);
                           FirebaseAuth.instance.signOut();
                           Provider.of<Authentication>(context, listen: false)
                               .signOut(context: context);

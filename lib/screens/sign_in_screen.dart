@@ -118,7 +118,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                         .signInWithGoogle(context: context);
                 print("Return User Data");
                 print(user);
-                if (user != null) {
+                if (user.uid != null) {
                   setState(() {
                     _isSigningIn = false;
                   });

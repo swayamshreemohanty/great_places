@@ -10,18 +10,10 @@ final GoogleSignIn googleSignIn = GoogleSignIn();
 final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
 class Authentication with ChangeNotifier {
-  String _userName;
   UserData _userData;
 
-  String get user {
-    if (_userName == null) {
-      return null;
-    } else {
-      return _userName;
-    }
-  }
-
   UserData get userData {
+    //this data is used to send user data to app_drawer.
     return _userData;
   }
 
@@ -62,7 +54,7 @@ class Authentication with ChangeNotifier {
             await auth.signInWithCredential(credential);
 
         user = userCredential.user;
-        _userName = user.displayName.toString();
+
         print("User Signin Data");
         print(user);
 
@@ -103,7 +95,7 @@ class Authentication with ChangeNotifier {
 
     try {
       await googleSignIn.signOut();
-      _userName = null;
+
       notifyListeners();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -112,45 +104,5 @@ class Authentication with ChangeNotifier {
         ),
       );
     }
-  }
-
-  Future<bool> tryAutoLogin() async {
-    googleSignIn.onCurrentUserChanged.listen(
-      (account) {
-        print("Account Details");
-        // print(account);
-        print(account);
-
-        _userName = account.displayName.toString();
-        _userData = UserData(
-          displayName: account.displayName.toString(),
-          email: account.email.toString(),
-          photoUrl: account.photoUrl.toString(),
-        );
-      },
-      onError: (error) {
-        print('Sign In $error');
-      },
-    );
-    googleSignIn.signInSilently(suppressErrors: true).then(
-      (account) {
-        print("User Name");
-        print(account);
-        _userName = account.displayName.toString();
-        UserData(
-          displayName: account.displayName.toString(),
-          email: account.email.toString(),
-          photoUrl: account.photoUrl.toString(),
-        );
-
-        notifyListeners();
-      },
-    ).catchError(
-      (error) {
-        print('Error signIn $error');
-      },
-    );
-
-    return true;
   }
 }

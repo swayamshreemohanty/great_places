@@ -15,8 +15,8 @@ import 'package:firebase_core/firebase_core.dart';
 Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
-      statusBarIconBrightness: Brightness.light,
-      statusBarColor: Colors.black,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarColor: Colors.transparent,
     ),
   );
   WidgetsFlutterBinding.ensureInitialized();
