@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/google_authentication.dart';
-import '../screens/places_list_screen.dart';
-// import 'package:google_fonts/google_fonts.dart';
 
 class SignInScreen extends StatefulWidget {
   static const routeName = '/sign-in';
@@ -121,8 +119,6 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 print("Return User Data");
                 print(user);
                 if (user != null) {
-                  Navigator.of(context)
-                      .pushReplacementNamed(PlacesList.routeName);
                   setState(() {
                     _isSigningIn = false;
                   });

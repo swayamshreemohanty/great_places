@@ -13,10 +13,6 @@ class Authentication with ChangeNotifier {
   String _userName;
   UserData _userData;
 
-  bool get isAuth {
-    return _userName != null;
-  }
-
   String get user {
     if (_userName == null) {
       return null;

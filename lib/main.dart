@@ -1,4 +1,5 @@
 //@dart=2.9
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:native_device/providers/google_authentication.dart';
@@ -9,14 +10,18 @@ import 'package:provider/provider.dart';
 import './screens/places_list_screen.dart';
 import './screens/add_place_screen.dart';
 import './screens/place_details_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
       statusBarIconBrightness: Brightness.light,
       statusBarColor: Colors.black,
     ),
   );
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(MyApp());
 }
 
@@ -48,30 +53,30 @@ class MyApp extends StatelessWidget {
           create: (ctx) => GreatPlaces(),
         ),
       ],
-      child: Consumer<Authentication>(
-        builder: (context, auth, _) => MaterialApp(
-          title: 'Great Places',
-          theme: ThemeData(
-            primarySwatch: white,
-            accentColor: Colors.indigoAccent.shade400,
-          ),
-          home: auth.isAuth
-              ? PlacesList()
-              : FutureBuilder(
-                  future: auth.tryAutoLogin(),
-                  builder: (ctx, authResultSnapshot) =>
-                      authResultSnapshot.connectionState ==
-                              ConnectionState.waiting
-                          ? SplashScreen()
-                          : SignInScreen(),
-                ),
-          routes: {
-            PlacesList.routeName: (ctx) => PlacesList(),
-            SignInScreen.routeName: (ctx) => SignInScreen(),
-            AddPlaceScreen.routeName: (ctx) => AddPlaceScreen(),
-            PlaceDetailScreen.routeName: (ctx) => PlaceDetailScreen(),
-          },
+      child: MaterialApp(
+        title: 'Great Places',
+        theme: ThemeData(
+          primarySwatch: white,
+          accentColor: Colors.indigoAccent.shade400,
         ),
+        home: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (ctx, authResultSnapshot) {
+              if (authResultSnapshot.connectionState ==
+                  ConnectionState.waiting) {
+                return SplashScreen();
+              }
+              if (authResultSnapshot.hasData) {
+                return PlacesList();
+              }
+              return SignInScreen();
+            }),
+        routes: {
+          PlacesList.routeName: (ctx) => PlacesList(),
+          SignInScreen.routeName: (ctx) => SignInScreen(),
+          AddPlaceScreen.routeName: (ctx) => AddPlaceScreen(),
+          PlaceDetailScreen.routeName: (ctx) => PlaceDetailScreen(),
+        },
       ),
     );
   }
