@@ -6,9 +6,10 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
 
 class ImageInput extends StatefulWidget {
-  final Function
-      onSelectImage; //this function is used to send this image file to add_place_screen.dart
   ImageInput(this.onSelectImage);
+  
+  //this function is used to send this image file to add_place_screen.dart
+  final Function onSelectImage;
 
   @override
   _ImageInputState createState() => _ImageInputState();

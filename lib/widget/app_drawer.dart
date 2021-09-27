@@ -18,11 +18,16 @@ class AppDrawer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           UserAccountsDrawerHeader(
+            decoration: BoxDecoration(color: Colors.indigo),
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: NetworkImage('$photoUrl'),
+            ),
             accountName: Text(
               '$displayName',
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
             accountEmail: Text(
@@ -30,11 +35,9 @@ class AppDrawer extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
+                color: Colors.white,
               ),
             ),
-            currentAccountPicture:
-                CircleAvatar(child: Image.network('$photoUrl')),
-            currentAccountPictureSize: Size(80, 80),
           ),
           Card(
             elevation: 2,
