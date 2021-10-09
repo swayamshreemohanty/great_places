@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart' as syspaths;
 
 class ImageInput extends StatefulWidget {
   ImageInput(this.onSelectImage);
-  
+
   //this function is used to send this image file to add_place_screen.dart
   final Function onSelectImage;
 
@@ -20,7 +20,8 @@ class _ImageInputState extends State<ImageInput> {
 
   Future<void> _takePicture() async {
     // final _picker = ImagePicker();
-    final imageFile = await ImagePicker.pickImage(
+    final ImagePicker _picker = ImagePicker();
+    final XFile imageFile = await _picker.pickImage(
       source: ImageSource.camera,
       maxWidth: 600,
     );
@@ -33,8 +34,11 @@ class _ImageInputState extends State<ImageInput> {
 
     final appDir = await syspaths.getApplicationDocumentsDirectory();
     final fileName = path.basename(imageFile.path);
+    print("File name");
+    print(fileName);
 
-    final savedImage = await imageFile.copy('${appDir.path}/$fileName');
+    final savedImage =
+        await File(imageFile.path).copy('${appDir.path}/$fileName');
 
     widget.onSelectImage(savedImage);
   }

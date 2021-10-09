@@ -22,6 +22,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   PlaceLocation _pickedLocation;
 
   void _selectImage(File pickedImage) {
+    print("Select Image Function");
+    print(pickedImage);
     _pickedImage = pickedImage;
   }
 
@@ -29,6 +31,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
     if (_titleController.text.isEmpty ||
         _pickedImage == null ||
         _pickedLocation == null) {
+      print("No able to submit");
+      print(_pickedImage);
       return;
     }
     Provider.of<GreatPlaces>(context, listen: false)
