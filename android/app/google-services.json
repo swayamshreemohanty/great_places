@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "331343830014-fv63vosm0d6v1a4uia42jemolv4fs5kb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.greatplaces",
+            "certificate_hash": "4ec8a3eb172172589e9dd805c9c59f1624f23c7c"
+          }
+        },
+        {
           "client_id": "331343830014-mh6s8hmkteqonalsmca26jldat1djdbu.apps.googleusercontent.com",
           "client_type": 3
         }
