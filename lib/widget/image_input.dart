@@ -37,6 +37,7 @@ class _ImageInputState extends State<ImageInput> {
     print("File name");
     print(fileName);
 
+//save the clicked image as File in the app directory
     final savedImage =
         await File(imageFile.path).copy('${appDir.path}/$fileName');
 
